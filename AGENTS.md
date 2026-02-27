@@ -33,5 +33,5 @@ npx tsc --noEmit     # standalone TypeScript check
     -H "Content-Type: application/json" \
     -d '{"messages":[{"id":"1","role":"user","parts":[{"type":"text","text":"Hello"}]}]}'
   ```
-  This returns SSE streaming data. A 200 response with `text-delta` events confirms the API key and Inception Labs connectivity are working.
-- **Frontend rendering of chat responses**: The `useChat` hook receives the streaming response (confirmed via Network tab: 200 OK, correct SSE format) but does not render the assistant message in the UI. This is a pre-existing application-level issue, not an environment problem.
+  This returns plain text (the API uses `toTextStreamResponse()` with `streamProtocol: "text"` on the frontend). A 200 response with text content confirms the API key and Inception Labs connectivity are working.
+- **Do not create `.env.local`**: If a `.env.local` file with a placeholder `INCEPTION_API_KEY` value exists, Next.js will load it and override the real secret injected via the environment. Delete any such file before starting the dev server.
