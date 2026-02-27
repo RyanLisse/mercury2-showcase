@@ -42,8 +42,10 @@ export default function Home() {
     append,
     reload,
     status,
+    error,
   } = useChat({
     api: "/api/chat",
+    streamProtocol: "text",
     onResponse: () => {
       setStreamStart(Date.now());
       setTokenCount(0);
@@ -199,6 +201,22 @@ export default function Home() {
             </ConversationContent>
             <ConversationScrollButton />
           </Conversation>
+
+          {/* Error from API (e.g. 502, invalid key) */}
+          {error && (
+            <div className="mx-auto w-full max-w-3xl px-1 pb-2">
+              <div className="rounded-xl border border-red-500/30 bg-red-500/10 px-4 py-3 text-sm text-red-400 flex items-center justify-between gap-3">
+                <span>{error.message || "Something went wrong. Check your API key and try again."}</span>
+                <button
+                  type="button"
+                  onClick={() => reload()}
+                  className="shrink-0 rounded-lg bg-red-500/20 px-3 py-1.5 text-xs font-medium hover:bg-red-500/30 transition-colors"
+                >
+                  Retry
+                </button>
+              </div>
+            </div>
+          )}
 
           {/* Speed indicator + Input */}
           <div className="pb-4 pt-2 space-y-2">
